@@ -34,7 +34,8 @@ export const accountsController = {
 
       // generate a token
       const token = generateToken(savedUser._id);
-      res.status(201).json({ message: "user created successfully", token, username: savedUser.username }); // pass username in response to frontend for displaying in UI
+      // pass username in response to frontend for displaying in UI & asign role for access control
+      res.status(201).json({ message: "user created successfully", token, username: savedUser.username, role: "user"  });
     } catch (error) {
       res.status(500).json({ message: "backend signup error" });
     }
@@ -43,6 +44,13 @@ export const accountsController = {
   login: async (req, res) => {
     const { email, password } = req.body;
     try {
+      // check if the credentials match the admin's credentials from the .env file
+      if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+        console.log("logging in: admin");
+        const token = generateToken({id: "admin"});
+        return res.json({ message: "admin logged in successfully", token, username: "Admin", role: "admin" }); // assign role for access control
+      }
+
       // search database by email address
       const user = await User.findOne({ email });
       if (!user) return res.status(400).json({ message: "user not found" });
@@ -53,7 +61,8 @@ export const accountsController = {
 
       // successful login, generate token
       const token = generateToken(user._id);
-      res.status(200).json({ message: "login successful", token, username: user.username }); // pass username in response to frontend for displaying in UI
+      // pass username in response to frontend for displaying in UI & asign role for access control
+      res.status(200).json({ message: "login successful", token, username: user.username, role: user.role, });
 
     } catch (error) {
       res.status(500).json({ message: "error logging in" });
