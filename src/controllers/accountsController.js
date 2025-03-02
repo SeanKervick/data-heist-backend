@@ -34,7 +34,7 @@ export const accountsController = {
 
       // generate a token
       const token = generateToken(savedUser._id);
-      res.status(201).json({ message: "user created successfully", token });
+      res.status(201).json({ message: "user created successfully", token, username: savedUser.username }); // pass username in response to frontend for displaying in UI
     } catch (error) {
       res.status(500).json({ message: "backend signup error" });
     }
@@ -53,7 +53,7 @@ export const accountsController = {
 
       // successful login, generate token
       const token = generateToken(user._id);
-      res.status(200).json({ message: "login successful", token });
+      res.status(200).json({ message: "login successful", token, username: user.username }); // pass username in response to frontend for displaying in UI
 
     } catch (error) {
       res.status(500).json({ message: "error logging in" });
