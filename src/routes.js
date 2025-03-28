@@ -15,5 +15,7 @@ router.get("/leaderboard", getLeaderboard);
 router.get("/users", verifyToken, accountsController.getAllUsers);
 router.delete("/users", verifyToken, accountsController.deleteAllUsers);
 router.post("/update-score", verifyToken, updateHighScore);
+router.delete("/users/:id", verifyToken, accountsController.deleteUser);
+
 
 export default router;
