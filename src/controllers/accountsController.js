@@ -88,6 +88,7 @@ export const accountsController = {
   },
 
   deleteUser: async (req, res) => {
+    console.log("attempting to delete:", userId);
     try {
       const userId = req.params.id;
       const deletedUser = await User.findByIdAndDelete(userId); //mongoose function: https://mongoosejs.com/docs/api/model.html#Model.findByIdAndDelete()
