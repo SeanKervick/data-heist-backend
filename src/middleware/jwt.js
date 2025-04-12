@@ -1,3 +1,4 @@
+// https://github.com/johnrellissetu/assignment-2-api-security-SeanKervick
 import jwt from 'jsonwebtoken';
 
 const verifyToken = (req, res, next) => {
